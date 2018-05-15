@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="repo_item_ver_margin">18dp</dimen>
+    <dimen name="repo_item_side_margin">12dp</dimen>
+</resources>

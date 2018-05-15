@@ -20,12 +20,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>,
+        RepoAdapter.OnLongClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int LOADER_ID = 11;
 
-    private ArrayList<Repo> repoList = new ArrayList<>();
+    private ArrayList<Repo> repoList;
     private RepoAdapter mAdapter;
 
     private RecyclerView mRecyclerView;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        mAdapter = new RepoAdapter(repoList);
+        mAdapter = new RepoAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
@@ -93,12 +94,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             e.printStackTrace();
         }
 
-        mAdapter.notifyDataSetChanged();
+        mAdapter.setmRepoList(repoList);
         Log.d(TAG, "Length is: " + repoList.size());
     }
 
     @Override
     public void onLoaderReset(Loader<String> loader) {
 
+    }
+
+    @Override
+    public void onLongClick(Repo repo) {
+        Log.d(TAG, repo.getOwnerUrl());
     }
 }

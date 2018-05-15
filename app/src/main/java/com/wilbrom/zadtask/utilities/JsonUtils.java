@@ -19,6 +19,8 @@ public class JsonUtils {
         String repoName;
         String description;
         String owner;
+        String repoUrl;
+        String ownerUrl;
 
         JSONArray root = new JSONArray(rawJson);
 
@@ -29,8 +31,10 @@ public class JsonUtils {
             repoName = rootObj.getString("name");
             description = rootObj.getString("description");
             owner = ownerObj.getString("login");
+            repoUrl = rootObj.getString("html_url");
+            ownerUrl = ownerObj.getString("html_url");
 
-            Repo repo = new Repo(repoName, description, owner);
+            Repo repo = new Repo(repoName, description, owner, repoUrl, ownerUrl);
             repoList.add(repo);
         }
 

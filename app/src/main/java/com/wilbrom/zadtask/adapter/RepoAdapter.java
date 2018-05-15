@@ -1,5 +1,6 @@
 package com.wilbrom.zadtask.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,17 @@ import java.util.ArrayList;
 
 public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ItemViewHolder> {
 
-    private ArrayList<Repo> mRepoList = new ArrayList<>();
+    public interface OnLongClickListener {
+        void onLongClick(Repo repo);
+    }
 
-    public RepoAdapter(ArrayList<Repo> repoList) {
-        this.mRepoList = repoList;
+    private OnLongClickListener mListener;
+
+    private Context mContext;
+    private ArrayList<Repo> mRepoList;
+
+    public RepoAdapter(Context context) {
+        mListener = (OnLongClickListener) context;
     }
 
     @NonNull
@@ -39,10 +47,16 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ItemViewHolder
 
     @Override
     public int getItemCount() {
+        if (mRepoList == null) return 0;
         return mRepoList.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public void setmRepoList(ArrayList<Repo> repoList) {
+        this.mRepoList = repoList;
+        notifyDataSetChanged();
+    }
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         private TextView mRepoName;
         private TextView mRepoDescription;
@@ -54,6 +68,14 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ItemViewHolder
             mRepoName = (TextView) itemView.findViewById(R.id.repo_name);
             mRepoDescription = (TextView) itemView.findViewById(R.id.repo_description);
             mRepoOwner = (TextView) itemView.findViewById(R.id.repo_owner);
+
+            itemView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mListener.onLongClick(mRepoList.get(getAdapterPosition()));
+            return true;
         }
     }
 }

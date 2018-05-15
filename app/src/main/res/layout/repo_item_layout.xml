@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="6dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/repo_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Aardvark"
-        style="@style/TextAppearance.AppCompat.Title" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/repo_item_ver_margin"
+        android:layout_marginBottom="@dimen/repo_item_ver_margin"
+        android:layout_marginEnd="@dimen/repo_item_side_margin"
+        android:layout_marginStart="@dimen/repo_item_side_margin">
 
-    <TextView
-        android:id="@+id/repo_owner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Square"
-        style="@style/TextAppearance.AppCompat.Body1" />
+        <TextView
+            android:id="@+id/repo_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Aardvark"
+            style="@style/TextAppearance.AppCompat.Headline" />
 
-    <TextView
-        android:id="@+id/repo_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Aardvark is a library that makes it dead simple to create actionable bug reports."
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/repo_owner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Square"
+            style="@style/TextAppearance.AppCompat.Small" />
+
+        <TextView
+            android:id="@+id/repo_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Aardvark is a library that makes it dead simple to create actionable bug reports."
+            style="@style/TextAppearance.AppCompat.Body2" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLineSeparator" />
 
 </LinearLayout>
