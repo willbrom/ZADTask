@@ -5,9 +5,11 @@ import android.content.Loader;
 import android.content.AsyncTaskLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
+import com.wilbrom.zadtask.adapter.RepoAdapter;
 import com.wilbrom.zadtask.model.Repo;
 import com.wilbrom.zadtask.utilities.JsonUtils;
 import com.wilbrom.zadtask.utilities.NetworkUtils;
@@ -24,11 +26,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int LOADER_ID = 11;
 
     private ArrayList<Repo> repoList = new ArrayList<>();
+    private RepoAdapter mAdapter;
+
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        mAdapter = new RepoAdapter(repoList);
+        mRecyclerView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
@@ -82,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             e.printStackTrace();
         }
 
+        mAdapter.notifyDataSetChanged();
         Log.d(TAG, "Length is: " + repoList.size());
     }
 
