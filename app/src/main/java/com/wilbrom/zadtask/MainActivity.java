@@ -1,13 +1,20 @@
 package com.wilbrom.zadtask;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.content.AsyncTaskLoader;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.wilbrom.zadtask.adapter.RepoAdapter;
 import com.wilbrom.zadtask.model.Repo;
@@ -19,6 +26,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>,
         RepoAdapter.OnLongClickListener {
@@ -106,5 +114,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLongClick(Repo repo) {
         Log.d(TAG, repo.getOwnerUrl());
+
+        AlertDialog.Builder builder;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+//        } else {
+            builder = new AlertDialog.Builder(this);
+//        }
+        builder.setTitle("Go to")
+                .setView(getLayoutInflater().inflate(R.layout.dialog_layout, null))
+                .setMessage("Repository url or owner url?")
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        View alertLayout = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                        RadioGroup radioGroup = (RadioGroup) alertLayout.findViewById(R.id.radio_group);
+
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioRepoGroup = (RadioButton) alertLayout.findViewById(selectedId);
+
+                    }
+                })
+                .show();
     }
 }

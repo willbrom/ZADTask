@@ -10,13 +10,15 @@ public class Repo {
     private String owner;
     private String repoUrl;
     private String ownerUrl;
+    private String fork;
 
-    public Repo(String name, String description, String owner, String repoUrl, String ownerUrl) {
+    public Repo(String name, String description, String owner, String repoUrl, String ownerUrl, String fork) {
         this.name = name;
         this.description = description;
         this.owner = owner;
         this.repoUrl = repoUrl;
         this.ownerUrl = ownerUrl;
+        this.fork = fork;
     }
 
     public String getName() {
@@ -37,5 +39,14 @@ public class Repo {
 
     public String getOwnerUrl() {
         return ownerUrl;
+    }
+
+    public String getFork() {
+        return fork;
+    }
+
+    public boolean isForked() {
+        if (getFork().equals("true")) return true;
+        return false;
     }
 }
