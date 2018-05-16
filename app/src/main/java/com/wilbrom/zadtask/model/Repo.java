@@ -1,9 +1,5 @@
 package com.wilbrom.zadtask.model;
 
-/**
- * Created by user on 5/15/2018.
- */
-
 public class Repo {
     private String name;
     private String description;

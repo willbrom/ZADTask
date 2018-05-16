@@ -15,10 +15,6 @@ import com.wilbrom.zadtask.model.Repo;
 
 import java.util.ArrayList;
 
-/**
- * Created by user on 5/15/2018.
- */
-
 public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ItemViewHolder> {
 
     public interface OnLongClickListener {

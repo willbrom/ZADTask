@@ -3,17 +3,12 @@ package com.wilbrom.zadtask.utilities;
 import com.wilbrom.zadtask.model.Repo;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by user on 5/15/2018.
- */
-
 public class JsonUtils {
-    public static ArrayList<Repo> parseJson(String rawJson) throws JSONException {
+    public static ArrayList<Repo> parseJson(String rawJson) throws Exception {
         ArrayList<Repo> repoList = new ArrayList<>();
 
         String repoName;
