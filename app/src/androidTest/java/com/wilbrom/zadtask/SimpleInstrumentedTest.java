@@ -20,7 +20,7 @@ public class SimpleInstrumentedTest {
 
     @Test
     public void recyclerViewScroll_Check() {
-        // length of recyclerView = 30
-        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(29, scrollTo()));
+        // if length of recyclerView = 9 it pass else it fails because only 10 items load at first start
+        onView(withId(R.id.recyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(6, scrollTo()));
     }
 }

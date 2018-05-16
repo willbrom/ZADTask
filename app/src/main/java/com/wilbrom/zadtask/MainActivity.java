@@ -25,17 +25,19 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>,
-        RepoAdapter.OnLongClickListener {
+        RepoAdapter.OnRepoItemInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int LOADER_ID = 11;
 
-    private ArrayList<Repo> repoList;
+    private ArrayList<Repo> mCompleteRepoList;
+    private ArrayList<Repo> mRepoList = new ArrayList<>();
     private RepoAdapter mAdapter;
 
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mRefreshLayout;
+    private int mCurrentLastIndex = 9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +57,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onRefresh() {
                 mAdapter.setmRepoList(null);
+                mCurrentLastIndex = 9;
+                mRepoList.clear();
                 getLoaderManager().restartLoader(LOADER_ID, null, MainActivity.this);
             }
         });
 
+        if (savedInstanceState != null) {
+            mCurrentLastIndex = savedInstanceState.getInt(Intent.EXTRA_TEXT);
+        }
+
         getLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Intent.EXTRA_TEXT, mCurrentLastIndex);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -107,11 +121,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mProgressBar.setVisibility(View.INVISIBLE);
         mRefreshLayout.setRefreshing(false);
         try {
-            repoList = JsonUtils.parseJson(data);
+            mCompleteRepoList = JsonUtils.parseJson(data);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mAdapter.setmRepoList(repoList);
+
+        mRepoList.addAll(mCompleteRepoList.subList(0, mCurrentLastIndex));
+        mAdapter.setmRepoList(mRepoList);
     }
 
     @Override
@@ -150,5 +166,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         }
                         startActivity(intent);
                     }}).show();
+    }
+
+    @Override
+    public boolean onLoadMoreData() {
+        if (mCurrentLastIndex < mCompleteRepoList.size() - 2) {
+            mRepoList.addAll(mCompleteRepoList.subList(mCurrentLastIndex, mCurrentLastIndex + 10));
+            mAdapter.setmRepoList(mRepoList);
+            mCurrentLastIndex = mCurrentLastIndex + 10;
+            return true;
+        }
+        return false;
     }
 }
